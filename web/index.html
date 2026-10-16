@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#edf5ec"><meta name="description" content="A friendly personal budget and savings tracker">
+<link rel="manifest" href="manifest.webmanifest"><link rel="stylesheet" href="styles.css">
+<title>EasyBudget — Chi tiêu nhẹ nhàng</title>
+</head>
+<body>
+<div class="app-shell" id="appShell">
+<header class="topbar">
+  <div class="brand"><div class="brand-icon">🐻‍❄️</div><div><div class="eyebrow" data-i18n="hello">CHÀO BẠN, HÔM NAY THẾ NÀO?</div><h1>EasyBudget</h1></div></div>
+  <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙️</button>
+</header>
+<section class="hero panel">
+  <div class="hero-top"><span class="eyebrow" data-i18n="balance">SỐ DƯ HIỆN TẠI</span><button id="toggleBalance" class="quiet-btn">◉</button></div>
+  <div class="balance" id="balanceValue">₫0</div>
+  <div class="hero-stats"><div><span class="dot income-dot"></span><span data-i18n="income">Thu nhập</span><b id="incomeValue">₫0</b></div><div><span class="dot expense-dot"></span><span data-i18n="expense">Chi tiêu</span><b id="expenseValue">₫0</b></div></div>
+  <div class="hero-art" aria-hidden="true"><span>🌿</span><span>☁️</span><span>✨</span></div>
+</section>
+<section class="quote-card panel"><div class="quote-mark">“</div><div><div class="eyebrow" data-i18n="dailyQuote">LỜI NHẮN HÔM NAY</div><p id="quoteText"></p><small id="quoteAuthor"></small></div></section>
+<div class="section-heading"><h2 data-i18n="overview">Tổng quan tháng</h2><input id="monthPicker" type="month" aria-label="Month"></div>
+<section class="grid-two">
+ <article class="panel mini-panel"><div class="mini-icon budget-icon">🎯</div><span data-i18n="monthlyBudget">Ngân sách tháng</span><strong id="budgetValue">Chưa đặt</strong><div class="progress"><span id="budgetProgress"></span></div><small id="budgetCaption"></small><button class="text-btn" id="setBudgetBtn" data-i18n="setBudget">Đặt ngân sách →</button></article>
+ <article class="panel mini-panel"><div class="mini-icon savings-icon">🌱</div><span data-i18n="savingsGoal">Mục tiêu tiết kiệm</span><strong id="savingsTotal">₫0</strong><small id="savingsCaption"></small><button class="text-btn" id="addGoalBtn" data-i18n="addGoal">Thêm mục tiêu +</button></article>
+</section>
+<div class="section-heading"><h2>Phân tích chi tiêu</h2><button class="text-btn" id="analyticsBtn">Thống kê →</button></div>
+<section class="panel analytics-preview">
+  <div class="analytics-preview-head"><div><span class="eyebrow">CHI TIÊU THÁNG NÀY</span><strong id="analyticsTotal">₫0</strong></div><div class="period-pill" id="analyticsPeriod">Theo tháng</div></div>
+  <div class="mini-chart" id="miniCategoryChart"><div class="empty">Thêm giao dịch để xem biểu đồ của bạn.</div></div>
+</section>
+<div class="section-heading"><h2 data-i18n="recent">Giao dịch gần đây</h2><button class="text-btn" id="allTransactionsBtn" data-i18n="seeAll">Xem tất cả</button></div>
+<section class="panel transactions" id="transactionList"></section>
+<button class="fab" id="addTransactionBtn"><span>＋</span><span data-i18n="addTransaction">Thêm giao dịch</span></button>
+<section class="nudge panel"><div class="nudge-emoji" id="nudgeEmoji">😄</div><div><strong data-i18n="friendlyReminder">Một lời nhắc thân thiện</strong><p id="nudgeText"></p></div></section>
+<nav class="bottom-nav"><button class="active" data-tab="home">🏡<span data-i18n="home">Trang chủ</span></button><button data-tab="transactions">🧾<span data-i18n="transactions">Giao dịch</span></button><button data-tab="goals">🌱<span data-i18n="goals">Mục tiêu</span></button><button data-tab="settings">🎨<span data-i18n="customize">Tùy chỉnh</span></button></nav>
+</div>
+<div class="modal-backdrop" id="modalBackdrop" hidden><div class="modal panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><h2 id="modalTitle">Thêm giao dịch</h2><button class="icon-btn" id="closeModal">✕</button></div><div id="modalBody"></div></div></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,0 +1,18 @@
+{
+  "name": "EasyBudget Personal Finance",
+  "short_name": "EasyBudget",
+  "description": "Friendly personal budget and savings tracker",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#edf5ec",
+  "theme_color": "#4e8761",
+  "icons": [
+    {
+      "src": "easybudget-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

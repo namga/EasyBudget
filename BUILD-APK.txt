@@ -1,0 +1,1 @@
+Upload this folder's contents to GitHub. Then Actions > Build Android debug APK > Run workflow. Download artifact easybudget-debug-apk.\n
