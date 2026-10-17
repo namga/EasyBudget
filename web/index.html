@@ -33,8 +33,22 @@
 <section class="panel transactions" id="transactionList"></section>
 <button class="fab" id="addTransactionBtn"><span>＋</span><span data-i18n="addTransaction">Thêm giao dịch</span></button>
 <section class="nudge panel"><div class="nudge-emoji" id="nudgeEmoji">😄</div><div><strong data-i18n="friendlyReminder">Một lời nhắc thân thiện</strong><p id="nudgeText"></p></div></section>
-<nav class="bottom-nav"><button class="active" data-tab="home">🏡<span data-i18n="home">Trang chủ</span></button><button data-tab="transactions">🧾<span data-i18n="transactions">Giao dịch</span></button><button data-tab="goals">🌱<span data-i18n="goals">Mục tiêu</span></button><button data-tab="settings">🎨<span data-i18n="customize">Tùy chỉnh</span></button></nav>
+<nav class="bottom-nav"><button class="active" data-tab="home">🏡<span data-i18n="home">Trang chủ</span></button><button data-tab="transactions">🧾<span data-i18n="transactions">Giao dịch</span></button><button data-tab="goals">🌱<span data-i18n="goals">Mục tiêu</span></button><button data-tab="calendar">🗓️<span>Lịch</span></button></nav>
 </div>
-<div class="modal-backdrop" id="modalBackdrop" hidden><div class="modal panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><h2 id="modalTitle">Thêm giao dịch</h2><button class="icon-btn" id="closeModal">✕</button></div><div id="modalBody"></div></div></div>
+
+<div class="app-lock" id="appLock" hidden>
+  <div class="lock-card">
+    <div class="lock-mark">🔐</div>
+    <p class="eyebrow">EASYBUDGET · RIÊNG TƯ CỦA BẠN</p>
+    <h2>Mở khóa EasyBudget</h2>
+    <p>Nhập mật khẩu để tiếp tục quản lý tài chính.</p>
+    <form id="unlockForm">
+      <input id="unlockPassword" type="password" autocomplete="current-password" placeholder="Mật khẩu ứng dụng" required>
+      <p class="lock-error" id="unlockError" aria-live="polite"></p>
+      <button class="primary-btn" type="submit">Mở khóa</button>
+    </form>
+  </div>
+</div>
+\n<div class="modal-backdrop" id="modalBackdrop" hidden><div class="modal panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-head"><h2 id="modalTitle">Thêm giao dịch</h2><button class="icon-btn" id="closeModal">✕</button></div><div id="modalBody"></div></div></div>
 <script src="app.js"></script>
 </body></html>

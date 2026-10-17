@@ -26,5 +26,15 @@ Serve `web/` through HTTPS or localhost for PWA installation and browser crypto 
 
 Android reminders use an inexact daily system alarm, so Android may deliver them a little later to conserve battery. On Android 13+, allow notification permission. The reminder is enabled in the app settings and scheduled at the selected time. If the device manufacturer aggressively restricts background alarms, configure battery settings for reliable delivery.
 
+Android encrypted backup uses the system Save/Open document picker. The Android WebView loads app assets through AndroidX WebViewAssetLoader on a secure appassets origin so Web Crypto APIs can be used. Web/PWA uses browser download/upload.
+
 ## Privacy
 Data is stored locally. No bank connection or server sync is included. Encrypted backup cannot be recovered if its password is lost. Test export/import on your target device before relying on a backup.
+
+
+## Calendar cash flow and app password
+- Bottom navigation now uses **Lịch** in place of the old customization tab. Theme and wallpaper options remain under Settings (gear icon).
+- Calendar shows each date's recorded income, expenses, net amount, and the selected day's transaction list, with month navigation.
+- Optional app login password is configured in Settings. The password itself is never stored; only a PBKDF2-SHA-256 hash and random salt are saved locally. Lock screen is shown when the app launches if password protection is enabled.
+- This is a local app lock, not an online account. Keep an encrypted backup. Test password setup/unlock and calendar interactions in the generated APK before relying on them.
+- Version remains **versionCode 1 / versionName 1.0.0**.
