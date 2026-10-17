@@ -16,6 +16,9 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient.FileChooserParams;
+import android.provider.MediaStore;
+import androidx.core.content.FileProvider;
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
@@ -27,8 +30,10 @@ public class MainActivity extends Activity {
     private WebViewAssetLoader assetLoader;
     private static final int REQUEST_CREATE_BACKUP = 4101;
     private static final int REQUEST_OPEN_BACKUP = 4102;
+    private static final int REQUEST_CAPTURE_IMAGE = 4104;
     private String pendingBackupJson = null;
     private ValueCallback<Uri[]> pendingFileChooser;
+    private Uri pendingCameraUri;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +63,31 @@ public class MainActivity extends Activity {
             @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 if (pendingFileChooser != null) pendingFileChooser.onReceiveValue(null);
                 pendingFileChooser = filePathCallback;
-                Intent intent = fileChooserParams.createIntent();
+                boolean wantsImage = false;
+                String[] types = fileChooserParams.getAcceptTypes();
+                if (types != null) for (String type : types) if (type != null && (type.contains("image/") || type.equals("image/*"))) wantsImage = true;
+                // HTML input capture="environment" is not consistently honored by Android WebView.
+                // Explicitly launch the native camera when capture is requested for an image.
+                if (fileChooserParams.isCaptureEnabled() && wantsImage) {
+                    Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (camera.resolveActivity(getPackageManager()) != null) {
+                        try {
+                            File dir = new File(getCacheDir(), "camera");
+                            if (!dir.exists() && !dir.mkdirs()) throw new java.io.IOException("Cannot create camera cache");
+                            File image = File.createTempFile("easybudget_receipt_", ".jpg", dir);
+                            pendingCameraUri = FileProvider.getUriForFile(MainActivity.this, getPackageName() + ".fileprovider", image);
+                            camera.putExtra(MediaStore.EXTRA_OUTPUT, pendingCameraUri);
+                            camera.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                            startActivityForResult(camera, REQUEST_CAPTURE_IMAGE);
+                            return true;
+                        } catch (Exception e) {
+                            pendingCameraUri = null;
+                            // Fall through to the system picker if camera launch fails.
+                        }
+                    }
+                }
                 try {
+                    Intent intent = fileChooserParams.createIntent();
                     startActivityForResult(intent, 4103);
                 } catch (Exception e) {
                     pendingFileChooser = null;
@@ -101,6 +129,15 @@ public class MainActivity extends Activity {
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == REQUEST_CAPTURE_IMAGE) {
+            if (pendingFileChooser != null) {
+                Uri[] results = resultCode == RESULT_OK && pendingCameraUri != null ? new Uri[]{pendingCameraUri} : null;
+                pendingFileChooser.onReceiveValue(results);
+                pendingFileChooser = null;
+            }
+            pendingCameraUri = null;
+            return;
+        }
         if (requestCode == 4103) {
             if (pendingFileChooser != null) {
                 Uri[] results = null;
