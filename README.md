@@ -59,3 +59,10 @@ Version stays at **versionCode 1 / versionName 1.0.0**.
 - Thay kiểm tra `step` mặc định của trình duyệt bằng kiểm tra trong ứng dụng với thông báo tiếng Việt.
 - Áp dụng cho ngân sách tháng, phân bổ theo danh mục, giao dịch và mục tiêu tiết kiệm.
 - Giữ nguyên `versionCode=1`, `versionName=1.0.0`; chỉ tăng mã cache PWA để thiết bị tải giao diện đã cập nhật.
+
+
+### Nhập giao dịch từ ảnh (bổ sung)
+- Trong Thêm giao dịch, chọn Chụp hóa đơn hoặc Chọn ảnh hóa đơn/chuyển khoản.
+- Bấm Đọc thông tin từ ảnh, sau đó kiểm tra/sửa số tiền, nội dung, ngày và danh mục trước khi lưu.
+- OCR tải Tesseract.js và dữ liệu tiếng Việt/Anh qua mạng ở lần đầu; nếu không có mạng hoặc không đọc được, vẫn có thể nhập thủ công. Ảnh không tự lưu thành giao dịch.
+- Version vẫn là versionName 1.0.0, versionCode 1.

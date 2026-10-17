@@ -14,6 +14,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient.FileChooserParams;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +28,7 @@ public class MainActivity extends Activity {
     private static final int REQUEST_CREATE_BACKUP = 4101;
     private static final int REQUEST_OPEN_BACKUP = 4102;
     private String pendingBackupJson = null;
+    private ValueCallback<Uri[]> pendingFileChooser;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +54,21 @@ public class MainActivity extends Activity {
                 return assetLoader.shouldInterceptRequest(Uri.parse(url));
             }
         });
-        web.setWebChromeClient(new WebChromeClient());
+        web.setWebChromeClient(new WebChromeClient() {
+            @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                if (pendingFileChooser != null) pendingFileChooser.onReceiveValue(null);
+                pendingFileChooser = filePathCallback;
+                Intent intent = fileChooserParams.createIntent();
+                try {
+                    startActivityForResult(intent, 4103);
+                } catch (Exception e) {
+                    pendingFileChooser = null;
+                    filePathCallback.onReceiveValue(null);
+                    return false;
+                }
+                return true;
+            }
+        });
         setContentView(web);
         ReminderReceiver.createChannel(this);
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission("android.permission.POST_NOTIFICATIONS") != PackageManager.PERMISSION_GRANTED) {
@@ -84,6 +101,22 @@ public class MainActivity extends Activity {
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == 4103) {
+            if (pendingFileChooser != null) {
+                Uri[] results = null;
+                if (resultCode == RESULT_OK && result != null) {
+                    if (result.getData() != null) results = new Uri[]{result.getData()};
+                    else if (Build.VERSION.SDK_INT >= 21 && result.getClipData() != null) {
+                        int count = result.getClipData().getItemCount();
+                        results = new Uri[count];
+                        for (int i = 0; i < count; i++) results[i] = result.getClipData().getItemAt(i).getUri();
+                    }
+                }
+                pendingFileChooser.onReceiveValue(results);
+                pendingFileChooser = null;
+            }
+            return;
+        }
         if (requestCode != REQUEST_CREATE_BACKUP && requestCode != REQUEST_OPEN_BACKUP) return;
         if (resultCode != RESULT_OK || result == null || result.getData() == null) {
             pendingBackupJson = null;
