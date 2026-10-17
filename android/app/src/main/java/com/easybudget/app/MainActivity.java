@@ -119,6 +119,10 @@ public class MainActivity extends Activity {
     }
 
     @Override public void onBackPressed() {
-        if (web != null && web.canGoBack()) web.goBack(); else super.onBackPressed();
+        if (web != null) {
+            web.evaluateJavascript("window.handleAppBackFromNative && window.handleAppBackFromNative()", null);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

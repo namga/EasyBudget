@@ -38,3 +38,16 @@ Data is stored locally. No bank connection or server sync is included. Encrypted
 - Optional app login password is configured in Settings. The password itself is never stored; only a PBKDF2-SHA-256 hash and random salt are saved locally. Lock screen is shown when the app launches if password protection is enabled.
 - This is a local app lock, not an online account. Keep an encrypted backup. Test password setup/unlock and calendar interactions in the generated APK before relying on them.
 - Version remains **versionCode 1 / versionName 1.0.0**.
+
+
+## Swipe-back navigation
+- Swiping right closes the open modal first, otherwise returns to the previous in-app tab; from any non-home tab it returns to Home. A right swipe on Home does not exit the app.
+- Android system Back is routed through the same in-app navigation handler before the app can close.
+
+## Smart budget allocation
+- Enter a monthly spending cap, then get category limits based on up to three prior months of expense transactions.
+- Recommendation blends 75% of the user's category spending mix with 25% starter weights to reduce the effect of unusual one-off categories; when history is absent it uses starter weights.
+- Amounts are editable and can be saved as a monthly category plan. The UI links to CFPB and NerdWallet budgeting guidance. The web recommendations are reference-based and calculated locally; the app does not upload transaction history to a recommendation server.
+- The 50/30/20 guideline is identified as a take-home-income rule of thumb, not a mandatory category split for every spending budget.
+
+Version stays at **versionCode 1 / versionName 1.0.0**.

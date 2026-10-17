@@ -5,9 +5,12 @@ import android.content.Context;
 import android.webkit.JavascriptInterface;
 
 public class ReminderBridge {
-    private final Context context;
-    public ReminderBridge(Context context) { this.context = context.getApplicationContext(); }
+    private final Activity activity;
+    public ReminderBridge(Context context) { this.activity = (Activity) context; }
     @JavascriptInterface public void scheduleDailyReminder(int hour, int minute, boolean enabled) {
-        ReminderReceiver.schedule(context, hour, minute, enabled);
+        ReminderReceiver.schedule(activity.getApplicationContext(), hour, minute, enabled);
+    }
+    @JavascriptInterface public void exitApp() {
+        activity.runOnUiThread(() -> activity.finish());
     }
 }
