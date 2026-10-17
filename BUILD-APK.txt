@@ -1,1 +1,1 @@
-Upload this folder's contents to GitHub. Then Actions > Build Android debug APK > Run workflow. Download artifact easybudget-debug-apk.\n
+Upload this folder contents to GitHub. Then Actions > Build Android debug APK > Run workflow. Download the versioned artifact, e.g. EasyBudget-v1.0.0-code1-debug. APK filename: EasyBudget-v1.0.0-code1-debug.apk. Version is read from android/app/build.gradle; current versionName=1.0.0 and versionCode=1.

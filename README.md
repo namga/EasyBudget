@@ -21,7 +21,7 @@ Serve `web/` through HTTPS or localhost for PWA installation and browser crypto 
 ## Android APK
 1. Upload all repository files to GitHub.
 2. Open Actions → **Build Android debug APK** → Run workflow.
-3. Download artifact `easybudget-debug-apk`.
+3. Download the versioned artifact, for example `EasyBudget-v1.0.0-code1-debug`. The APK file inside is named `EasyBudget-v1.0.0-code1-debug.apk`.
 4. Install the debug APK on a test device.
 
 Android reminders use an inexact daily system alarm, so Android may deliver them a little later to conserve battery. On Android 13+, allow notification permission. The reminder is enabled in the app settings and scheduled at the selected time. If the device manufacturer aggressively restricts background alarms, configure battery settings for reliable delivery.
@@ -45,6 +45,7 @@ Data is stored locally. No bank connection or server sync is included. Encrypted
 - Android system Back is routed through the same in-app navigation handler before the app can close.
 
 ## Smart budget allocation
+- After saving a monthly allocation, reopen it at any time from Home → Monthly budget → **Xem phân bổ đã lưu**. The button appears when the selected month has a saved plan; use the month picker to view another month.
 - Enter a monthly spending cap, then get category limits based on up to three prior months of expense transactions.
 - Recommendation blends 75% of the user's category spending mix with 25% starter weights to reduce the effect of unusual one-off categories; when history is absent it uses starter weights.
 - Amounts are editable and can be saved as a monthly category plan. The UI links to CFPB and NerdWallet budgeting guidance. The web recommendations are reference-based and calculated locally; the app does not upload transaction history to a recommendation server.

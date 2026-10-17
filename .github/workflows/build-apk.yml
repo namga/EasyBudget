@@ -17,12 +17,26 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
+      - name: Read app version
+        id: version
+        shell: bash
+        run: |
+          VERSION_NAME=$(sed -nE "s/.*versionName '([^']+)'.*/\1/p" android/app/build.gradle)
+          VERSION_CODE=$(sed -nE 's/.*versionCode ([0-9]+).*/\1/p' android/app/build.gradle)
+          test -n "$VERSION_NAME" && test -n "$VERSION_CODE"
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
       - name: Build debug APK
         working-directory: android
         run: gradle --no-daemon assembleDebug
-      - name: Upload APK
+      - name: Rename APK with version
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk "dist/EasyBudget-v${{ steps.version.outputs.name }}-code${{ steps.version.outputs.code }}-debug.apk"
+      - name: Upload versioned APK
         uses: actions/upload-artifact@v4
         with:
-          name: easybudget-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: EasyBudget-v${{ steps.version.outputs.name }}-code${{ steps.version.outputs.code }}-debug
+          path: dist/EasyBudget-v${{ steps.version.outputs.name }}-code${{ steps.version.outputs.code }}-debug.apk
           if-no-files-found: error
