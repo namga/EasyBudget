@@ -51,3 +51,10 @@ Data is stored locally. No bank connection or server sync is included. Encrypted
 - The 50/30/20 guideline is identified as a take-home-income rule of thumb, not a mandatory category split for every spending budget.
 
 Version stays at **versionCode 1 / versionName 1.0.0**.
+
+
+### Cải tiến nhập số tiền (bản sửa UI)
+- Các ô nhập tiền hiển thị dấu phân cách hàng nghìn theo định dạng Việt Nam, ví dụ `10.000.000`.
+- Thay kiểm tra `step` mặc định của trình duyệt bằng kiểm tra trong ứng dụng với thông báo tiếng Việt.
+- Áp dụng cho ngân sách tháng, phân bổ theo danh mục, giao dịch và mục tiêu tiết kiệm.
+- Giữ nguyên `versionCode=1`, `versionName=1.0.0`; chỉ tăng mã cache PWA để thiết bị tải giao diện đã cập nhật.
