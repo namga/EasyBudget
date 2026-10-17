@@ -1,1 +1,5 @@
 Upload this folder contents to GitHub. Then Actions > Build Android debug APK > Run workflow. Download the versioned artifact, e.g. EasyBudget-v1.0.0-code1-debug. APK filename: EasyBudget-v1.0.0-code1-debug.apk. Version is read from android/app/build.gradle; current versionName=1.0.0 and versionCode=1.
+
+Phien ban hien tai: versionName 1.0.0, versionCode 1.
+Artifact/APK duoc GitHub Actions dat ten theo mau EasyBudget-v1.0.0-code1-debug.
+Nut 'Tinh lai goi y' dung du lieu giao dich chi tieu trong 3 thang truoc thang dang chon; neu khong co lich su, ung dung hien thong bao va dung ty trong khoi diem.
